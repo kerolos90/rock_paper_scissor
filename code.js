@@ -1,49 +1,73 @@
-function game(a,b){
-   let choices = ['Rock', 'Paper', 'Scissor']; 
-   let score = 0;
+//Score
+let player_score = 0;
+let computer_score = 0;
 
-   function playGame(x, y){
-    y = y.toLowerCase()
-    x = x.toLowerCase()
+//Reset button
+const reset_bttn = document.querySelector("#reset");
+reset_bttn.addEventListener("click", function () {
+  player_score = 0;
+  computer_score = 0;
+  document.getElementById(
+    "p_score"
+  ).innerHTML = `Player Score: ${player_score}  Computer Score: ${computer_score}`;
+  document.getElementById("final_score").innerHTML = "";
+  document.getElementById("comp_choice").innerHTML = "";
+});
+//Rock Button
+const rock_bttn = document.querySelector("#rock");
+rock_bttn.addEventListener("click", function () {
+  game("Rock");
+});
 
-    if (x === y){
-        return 0
-    } 
-    if (x === 'rock'){
-       if (y === 'paper'){
-          return 1
-       }else{
-           return 0
-       }
-    }
-    if (x === 'paper'){
-       if (y === 'scissor'){
-           return 1
-       }else{
-           return 0
-       }
-    }
-    if (x === 'scissor'){
-       if (y === 'rock'){
-           return 1
-       }else{
-           return 0
-        }
-    }
-     
-   }
+//Paper Button
+const paper_bttn = document.querySelector("#paper");
+paper_bttn.addEventListener("click", function () {
+  game("Paper");
+});
 
-   for (let i=0; i<5; i++){
-    let playerSelection = prompt('What is your choice?')   
-    let computerChoice = choices[Math.floor(Math.random()*3)] // Computer Randomly Picks Choice    
-    if (playGame(computerChoice, playerSelection) == 1){
-        score += 1
-    }
-    console.log(i);
-    console.log('You picked ' + playerSelection + '. The computer picked ' + computerChoice)
+//Scissor Button
+const scissor_bttn = document.querySelector("#scissor");
+scissor_bttn.addEventListener("click", function () {
+  game("Scissor");
+});
 
-   }
-   
-   return score     
+function game(a) {
+  if (player_score < 5 && computer_score < 5) {
+    let choices = ["Rock", "Paper", "Scissor"];
+    let computerChoice = choices[Math.floor(Math.random() * 3)]; // Computer Randomly Picks Choice
+    if (a === "Rock") {
+      if (computerChoice === "Scissor") {
+        player_score += 1;
+      } else if (computerChoice === "Paper") {
+        computer_score += 1;
+      }
+    }
+    if (a === "Paper") {
+      if (computerChoice === "Rock") {
+        player_score += 1;
+      } else if (computerChoice === "Scissor") {
+        computer_score += 1;
+      }
+    }
+    if (a === "Scissor") {
+      if (computerChoice === "Paper") {
+        player_score += 1;
+      } else if (computerChoice === "Rock") {
+        computer_score += 1;
+      }
+    }
+    document.getElementById(
+      "comp_choice"
+    ).innerHTML = `The computer picked ${computerChoice}`;
+    document.getElementById(
+      "p_score"
+    ).innerHTML = `Player Score: ${player_score}  Computer Score: ${computer_score}`;
+  }
+  if (player_score > 4 || computer_score > 4) {
+    if (player_score > computer_score) {
+      document.getElementById("final_score").innerHTML = "You win!";
+    } else if (computer_score > player_score) {
+      document.getElementById("final_score").innerHTML = "You lose!";
+    }
+  }
 }
-console.log('Your score is ' + game())
